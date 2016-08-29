@@ -40,7 +40,7 @@ subsection_id SERIAL,
 section_id bigint NOT NULL,
 name varchar (64) NOT NULL,
 themes_count bigint NOT NULL,
-PRIMARY KEY (subsection_id)
+PRIMARY KEY (subsection_id),
 FOREIGN KEY (section_id) REFERENCES section (section_id)
 );
 
@@ -53,9 +53,9 @@ title varchar (100) NOT NULL,
 date bigint NOT NULL,
 message_count bigint NOT NULL,
 status boolean NOT NULL,
-PRIMARY KEY (theme_id)
-FOREIGN KEY (user_id) REFERENCES short_user (user_id)
-FOREIGN KEY (section_id) REFERENCES section (section_id)
+PRIMARY KEY (theme_id),
+FOREIGN KEY (user_id) REFERENCES short_user (user_id),
+FOREIGN KEY (section_id) REFERENCES section (section_id),
 FOREIGN KEY (subsection_id) REFERENCES subsection (subsection_id)
 );
 
@@ -67,8 +67,8 @@ date bigint NOT NULL,
 body varchar (16000) NOT NULL,
 update bigint,
 rating bigint NOT NULL,
-PRIMARY KEY (message_id)
-FOREIGN KEY (user_id) REFERENCES short_user (user_id)
+PRIMARY KEY (message_id),
+FOREIGN KEY (user_id) REFERENCES short_user (user_id),
 FOREIGN KEY (theme_id) REFERENCES theme (theme_id)
 );
 
@@ -76,6 +76,6 @@ create table message_mark (
 user_id bigint NOT NULL,
 message_id bigint NOT NULL,
 mark boolean NOT NULL,
-FOREIGN KEY (user_id) REFERENCES short_user (user_id)
+FOREIGN KEY (user_id) REFERENCES short_user (user_id),
 FOREIGN KEY (message_id) REFERENCES message (message_id)
 );
