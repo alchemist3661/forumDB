@@ -1,0 +1,81 @@
+create table short_user (
+user_id SERIAL,
+nick_name varchar(64) NOT NULL UNIQUE,
+rating bigint NOT NULL,
+avatar VARCHAR,
+is_online boolean NOT NULL,
+PRIMARY KEY (user_id)
+);
+
+create table user_info (
+user_id bigint NOT NULL,
+mail varchar(254) NOT NULL UNIQUE,
+birth_date bigint,
+info varchar,
+rights varchar NOT NULL,
+registration_time bigint NOT NULL,
+last_session bigint NOT NULL,
+messages_count bigint NOT NULL,
+themes_count bigint NOT NULL,
+pass_hash varchar (64) NOT NULL,
+FOREIGN KEY (user_id) REFERENCES short_user (user_id)
+);
+
+create table auth (
+user_id bigint NOT NULL,
+token varchar (20) NOT NULL UNIQUE,
+FOREIGN KEY (user_id) REFERENCES short_user (user_id)
+);
+
+create table section (
+section_id SERIAL,
+name varchar (64) NOT NULL,
+themes_count bigint NOT NULL,
+subsections_count bigint NOT NULL,
+PRIMARY KEY (section_id)
+);
+
+create table subsection (
+subsection_id SERIAL,
+section_id bigint NOT NULL,
+name varchar (64) NOT NULL,
+themes_count bigint NOT NULL,
+PRIMARY KEY (subsection_id)
+FOREIGN KEY (section_id) REFERENCES section (section_id)
+);
+
+create table theme (
+theme_id SERIAL,
+user_id bigint NOT NULL,
+section_id bigint NOT NULL,
+subsection_id bigint NOT NULL,
+title varchar (100) NOT NULL,
+date bigint NOT NULL,
+message_count bigint NOT NULL,
+status boolean NOT NULL,
+PRIMARY KEY (theme_id)
+FOREIGN KEY (user_id) REFERENCES short_user (user_id)
+FOREIGN KEY (section_id) REFERENCES section (section_id)
+FOREIGN KEY (subsection_id) REFERENCES subsection (subsection_id)
+);
+
+create table message (
+message_id SERIAL,
+user_id bigint NOT NULL,
+theme_id bigint NOT NULL,
+date bigint NOT NULL,
+body varchar (16000) NOT NULL,
+update bigint,
+rating bigint NOT NULL,
+PRIMARY KEY (message_id)
+FOREIGN KEY (user_id) REFERENCES short_user (user_id)
+FOREIGN KEY (theme_id) REFERENCES theme (theme_id)
+);
+
+create table message_mark (
+user_id bigint NOT NULL,
+message_id bigint NOT NULL,
+mark boolean NOT NULL,
+FOREIGN KEY (user_id) REFERENCES short_user (user_id)
+FOREIGN KEY (message_id) REFERENCES message (message_id)
+);
