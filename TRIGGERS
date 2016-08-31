@@ -1,0 +1,125 @@
+-- Отслеживание добавления новых сообщений в таблице theme
+
+CREATE OR REPLACE FUNCTION public.tr_function_count_messages()
+  RETURNS trigger
+AS
+$BODY$
+  BEGIN
+  IF TG_OP = 'INSERT' THEN
+    UPDATE theme SET messages_count = messages_count + 1 WHERE theme.theme_id = NEW.theme_id;
+    UPDATE user_info SET messages_count = messages_count + 1 WHERE user_info.user_id = NEW.user_id;
+    RETURN NEW;
+  ELSIF TG_OP = 'DELETE' THEN
+    IF (SELECT messages_count FROM theme WHERE theme_id = OLD.theme_id) > 0 THEN
+      update theme set messages_count = messages_count - 1 where theme.theme_id = OLD.theme_id;
+    END IF;
+    IF (SELECT messages_count FROM user_info WHERE user_id = OLD.user_id) > 0 THEN
+      update user_info set messages_count = messages_count - 1 where user_info.user_id = OLD.user_id;
+    END IF;
+    RETURN OLD;
+  END IF;
+  return null;
+END;
+$BODY$
+LANGUAGE plpgsql VOLATILE;
+
+CREATE TRIGGER tr_message_count_on_theme
+AFTER INSERT OR DELETE ON message FOR EACH ROW EXECUTE PROCEDURE tr_function_count_messages ();
+
+-- Отслеживание добавления новых тем в таблицах section и subsection
+
+CREATE OR REPLACE FUNCTION public.tr_function_count_themes()
+  RETURNS trigger
+AS
+$BODY$
+  BEGIN
+  IF TG_OP = 'INSERT' THEN
+    UPDATE section SET themes_count = themes_count + 1 WHERE section.section_id = NEW.section_id;
+    UPDATE subsection SET themes_count = themes_count + 1 WHERE subsection.subsection_id = NEW.subsection_id;
+    UPDATE user_info SET themes_count = themes_count + 1 WHERE user_info.user_id = NEW.user_id;
+    RETURN NEW;
+  ELSIF TG_OP = 'DELETE' THEN
+    IF (SELECT themes_count FROM section WHERE section_id = OLD.section_id) > 0 THEN
+      update section set themes_count = themes_count - 1 where section.section_id = OLD.section_id;
+    END IF;
+    IF (SELECT themes_count FROM subsection WHERE subsection_id = OLD.subsection_id) > 0 THEN
+      update subsection set themes_count = themes_count - 1 where subsection.subsection_id = OLD.subsection_id;
+    END IF;
+    IF (SELECT themes_count FROM subsection WHERE subsection_id = OLD.subsection_id) > 0 THEN
+      update user_info set themes_count = themes_count - 1 where user_info.user_id = OLD.user_id;
+    END IF;
+    RETURN OLD;
+  END IF;
+  return null;
+END;
+$BODY$
+LANGUAGE plpgsql VOLATILE;
+
+CREATE TRIGGER tr_themes_count_on_section_and_subsection
+AFTER INSERT OR DELETE ON theme FOR EACH ROW EXECUTE PROCEDURE tr_function_count_themes ();
+
+
+-- Отслеживание добавления новых тем субсекций в subsection
+
+CREATE OR REPLACE FUNCTION public.tr_function_count_subsections()
+  RETURNS trigger
+AS
+$BODY$
+  BEGIN
+  IF TG_OP = 'INSERT' THEN
+    UPDATE section SET subsections_count = subsections_count + 1 WHERE section.section_id = NEW.section_id;
+    RETURN NEW;
+  ELSIF TG_OP = 'DELETE' THEN
+    IF (SELECT subsections_count FROM section WHERE section_id = OLD.section_id) > 0 THEN
+      update section set subsections_count = subsections_count - 1 where section.section_id = OLD.section_id;
+    END IF;
+    RETURN OLD;
+  END IF;
+  return null;
+END;
+$BODY$
+LANGUAGE plpgsql VOLATILE;
+
+-- Отслеживание добавления новых оценок в short_user и message
+
+CREATE OR REPLACE FUNCTION public.tr_function_count_rates()
+  RETURNS trigger
+AS
+$BODY$
+BEGIN
+  IF TG_OP = 'INSERT' THEN
+    IF (NEW.mark) THEN
+      UPDATE short_user SET rating = rating + 1 WHERE short_user.user_id = (SELECT user_id FROM message WHERE message_id = NEW.message_id);
+      UPDATE message SET rating = rating + 1 WHERE message.message_id = NEW.message_id;
+    ELSE
+      UPDATE short_user SET rating = rating - 1 WHERE short_user.user_id = (SELECT user_id FROM message WHERE message_id = NEW.message_id);
+      UPDATE message SET rating = rating - 1 WHERE message.message_id = NEW.message_id;
+    END IF;
+    RETURN NEW;
+  ELSEIF TG_OP = 'UPDATE' THEN
+    IF (NEW.mark) THEN
+      UPDATE short_user SET rating = rating + 1 WHERE short_user.user_id = (SELECT user_id FROM message WHERE message_id = NEW.message_id);
+      UPDATE message SET rating = rating + 1 WHERE message.message_id = NEW.message_id;
+    ELSE
+      UPDATE short_user SET rating = rating - 1 WHERE short_user.user_id = (SELECT user_id FROM message WHERE message_id = NEW.message_id);
+      UPDATE message SET rating = rating - 1 WHERE message.message_id = NEW.message_id;
+    END IF;
+    RETURN NEW;
+  ELSIF TG_OP = 'DELETE' THEN
+    IF (OLD.mark) THEN
+      UPDATE short_user SET rating = rating - 1 WHERE short_user.user_id = (SELECT user_id FROM message WHERE message_id = NEW.message_id);
+      UPDATE message SET rating = rating - 1 WHERE message.message_id = NEW.message_id;
+    ELSE
+      UPDATE short_user SET rating = rating + 1 WHERE short_user.user_id = (SELECT user_id FROM message WHERE message_id = NEW.message_id);
+      UPDATE message SET rating = rating + 1 WHERE message.message_id = NEW.message_id;
+    END IF;
+    RETURN OLD;
+  END IF;
+  return null;
+END;
+$BODY$
+LANGUAGE plpgsql VOLATILE;
+
+
+CREATE TRIGGER tr_rates_on_message_short_user
+AFTER INSERT OR UPDATE OR DELETE ON message_mark FOR EACH ROW EXECUTE PROCEDURE tr_function_count_rates ();
