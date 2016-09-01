@@ -80,6 +80,9 @@ END;
 $BODY$
 LANGUAGE plpgsql VOLATILE;
 
+CREATE TRIGGER tr_subsections_Count
+AFTER INSERT OR DELETE ON subsection FOR EACH ROW EXECUTE PROCEDURE tr_function_count_subsections();
+
 -- Отслеживание добавления новых оценок в short_user и message
 
 CREATE OR REPLACE FUNCTION public.tr_function_count_rates()
