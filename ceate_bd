@@ -4,6 +4,7 @@ nick_name varchar(64) NOT NULL UNIQUE,
 rating bigint NOT NULL,
 avatar VARCHAR,
 is_online boolean NOT NULL,
+rights varchar NOT NULL,
 PRIMARY KEY (user_id)
 );
 
@@ -12,12 +13,12 @@ user_id bigint NOT NULL,
 mail varchar(254) NOT NULL UNIQUE,
 birth_date bigint,
 info varchar,
-rights varchar NOT NULL,
 registration_time bigint NOT NULL,
 last_session bigint NOT NULL,
 messages_count bigint NOT NULL,
 themes_count bigint NOT NULL,
 pass_hash varchar (64) NOT NULL,
+name varchar (64),
 FOREIGN KEY (user_id) REFERENCES short_user (user_id)
 );
 
@@ -83,6 +84,8 @@ FOREIGN KEY (user_id) REFERENCES short_user (user_id),
 FOREIGN KEY (message_id) REFERENCES message (message_id)
 );
 
-ALTER TABLE message ADD COLUMN updater_id BIGINT;
-ALTER TABLE message ADD FOREIGN KEY (updater_id) REFERENCES short_user (user_id);
-alter TABLE message ADD COLUMN updater_nick_name VARCHAR(60);
+create table info (
+identifier varchar(64) PRIMARY KEY,
+title varchar,
+text varchar
+);

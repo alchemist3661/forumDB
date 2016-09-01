@@ -107,11 +107,11 @@ BEGIN
     RETURN NEW;
   ELSIF TG_OP = 'DELETE' THEN
     IF (OLD.mark) THEN
-      UPDATE short_user SET rating = rating - 1 WHERE short_user.user_id = (SELECT user_id FROM message WHERE message_id = NEW.message_id);
-      UPDATE message SET rating = rating - 1 WHERE message.message_id = NEW.message_id;
+      UPDATE short_user SET rating = rating - 1 WHERE short_user.user_id = (SELECT user_id FROM message WHERE message_id = OLD.message_id);
+      UPDATE message SET rating = rating - 1 WHERE message.message_id = OLD.message_id;
     ELSE
-      UPDATE short_user SET rating = rating + 1 WHERE short_user.user_id = (SELECT user_id FROM message WHERE message_id = NEW.message_id);
-      UPDATE message SET rating = rating + 1 WHERE message.message_id = NEW.message_id;
+      UPDATE short_user SET rating = rating + 1 WHERE short_user.user_id = (SELECT user_id FROM message WHERE message_id = OLD.message_id);
+      UPDATE message SET rating = rating + 1 WHERE message.message_id = OLD.message_id;
     END IF;
     RETURN OLD;
   END IF;
