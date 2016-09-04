@@ -89,3 +89,8 @@ identifier varchar(64) PRIMARY KEY,
 title varchar,
 text varchar
 );
+
+CREATE TABLE confirm (
+  user_id BIGINT NOT NULL UNIQUE,
+  confirm_hash VARCHAR(256)
+);
