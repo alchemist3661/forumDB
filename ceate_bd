@@ -19,13 +19,13 @@ messages_count bigint NOT NULL,
 themes_count bigint NOT NULL,
 pass_hash varchar (64) NOT NULL,
 name varchar (64),
-FOREIGN KEY (user_id) REFERENCES short_user (user_id)
+FOREIGN KEY (user_id) REFERENCES short_user (user_id) ON DELETE CASCADE
 );
 
 create table auth (
 user_id bigint NOT NULL,
 token varchar (20) NOT NULL UNIQUE,
-FOREIGN KEY (user_id) REFERENCES short_user (user_id)
+FOREIGN KEY (user_id) REFERENCES short_user (user_id) ON DELETE CASCADE
 );
 
 create table section (
@@ -42,7 +42,7 @@ section_id bigint NOT NULL,
 name varchar (64) NOT NULL,
 themes_count bigint NOT NULL,
 PRIMARY KEY (subsection_id),
-FOREIGN KEY (section_id) REFERENCES section (section_id)
+FOREIGN KEY (section_id) REFERENCES section (section_id) ON DELETE CASCADE
 );
 
 create table theme (
@@ -55,9 +55,9 @@ date bigint NOT NULL,
 message_count bigint NOT NULL,
 status boolean NOT NULL,
 PRIMARY KEY (theme_id),
-FOREIGN KEY (user_id) REFERENCES short_user (user_id),
-FOREIGN KEY (section_id) REFERENCES section (section_id),
-FOREIGN KEY (subsection_id) REFERENCES subsection (subsection_id)
+FOREIGN KEY (user_id) REFERENCES short_user (user_id), 
+FOREIGN KEY (section_id) REFERENCES section (section_id) ON DELETE CASCADE,
+FOREIGN KEY (subsection_id) REFERENCES subsection (subsection_id) ON DELETE CASCADE
 );
 
 create table message (
@@ -71,9 +71,9 @@ rating bigint NOT NULL,
 updater_id bigint,
 updater_nick_name varchar (60),
 PRIMARY KEY (message_id),
-FOREIGN KEY (user_id) REFERENCES short_user (user_id),
-FOREIGN KEY (updater_id) REFERENCES short_user (user_id),
-FOREIGN KEY (theme_id) REFERENCES theme (theme_id)
+FOREIGN KEY (user_id) REFERENCES short_user (user_id), 
+FOREIGN KEY (updater_id) REFERENCES short_user (user_id), 
+FOREIGN KEY (theme_id) REFERENCES theme (theme_id) ON DELETE CASCADE
 );
 
 create table message_mark (
@@ -81,7 +81,7 @@ user_id bigint NOT NULL,
 message_id bigint NOT NULL,
 mark boolean NOT NULL,
 FOREIGN KEY (user_id) REFERENCES short_user (user_id),
-FOREIGN KEY (message_id) REFERENCES message (message_id)
+FOREIGN KEY (message_id) REFERENCES message (message_id) ON DELETE CASCADE
 );
 
 create table info (
@@ -94,3 +94,5 @@ CREATE TABLE confirm (
   user_id BIGINT NOT NULL UNIQUE,
   confirm_hash VARCHAR(256)
 );
+
+
