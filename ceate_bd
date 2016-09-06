@@ -3,7 +3,6 @@ user_id SERIAL,
 nick_name varchar(64) NOT NULL UNIQUE,
 rating bigint NOT NULL,
 avatar VARCHAR,
-is_online boolean NOT NULL,
 rights varchar NOT NULL,
 PRIMARY KEY (user_id)
 );
