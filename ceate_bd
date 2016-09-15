@@ -4,6 +4,7 @@ nick_name varchar(64) NOT NULL UNIQUE,
 rating bigint NOT NULL,
 avatar VARCHAR,
 rights varchar NOT NULL,
+s_user_fts TSVECTOR,
 PRIMARY KEY (user_id)
 );
 
@@ -18,6 +19,7 @@ messages_count bigint NOT NULL,
 themes_count bigint NOT NULL,
 pass_hash varchar (64) NOT NULL,
 name varchar (64),
+user_fts TSVECTOR,
 FOREIGN KEY (user_id) REFERENCES short_user (user_id) ON DELETE CASCADE
 );
 
@@ -32,6 +34,7 @@ section_id SERIAL,
 name varchar (64) NOT NULL,
 themes_count bigint NOT NULL,
 subsections_count bigint NOT NULL,
+url VARCHAR(256) NOT NULL,
 PRIMARY KEY (section_id)
 );
 
@@ -40,6 +43,7 @@ subsection_id SERIAL,
 section_id bigint NOT NULL,
 name varchar (64) NOT NULL,
 themes_count bigint NOT NULL,
+url VARCHAR(256) NOT NULL,
 PRIMARY KEY (subsection_id),
 FOREIGN KEY (section_id) REFERENCES section (section_id) ON DELETE CASCADE
 );
@@ -53,6 +57,7 @@ title varchar (100) NOT NULL,
 date bigint NOT NULL,
 messages_count bigint NOT NULL,
 status boolean NOT NULL,
+theme_fts TSVECTOR,
 PRIMARY KEY (theme_id),
 FOREIGN KEY (user_id) REFERENCES short_user (user_id), 
 FOREIGN KEY (section_id) REFERENCES section (section_id) ON DELETE CASCADE,
@@ -69,6 +74,7 @@ update bigint,
 rating bigint NOT NULL,
 updater_id bigint,
 updater_nick_name varchar (60),
+message_fts TSVECTOR,
 PRIMARY KEY (message_id),
 FOREIGN KEY (user_id) REFERENCES short_user (user_id), 
 FOREIGN KEY (updater_id) REFERENCES short_user (user_id), 
@@ -93,5 +99,12 @@ CREATE TABLE confirm (
   user_id BIGINT NOT NULL UNIQUE,
   confirm_hash VARCHAR(256)
 );
+
+CREATE TABLE feedback (
+  id SERIAL,
+  feedback VARCHAR(16000) NOT NULL,
+	PRIMARY KEY (id)
+);
+
 
 
