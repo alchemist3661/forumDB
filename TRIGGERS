@@ -165,7 +165,7 @@ $BODY$
 LANGUAGE plpgsql VOLATILE;
 
 CREATE TRIGGER tr_fts_on_short_user
-AFTER INSERT OR UPDATE ON short_user FOR EACH ROW EXECUTE PROCEDURE update_fts_short_user ();
+BEFORE INSERT OR UPDATE ON short_user FOR EACH ROW EXECUTE PROCEDURE update_fts_short_user ();
 
 CREATE OR REPLACE FUNCTION public.update_fts_theme()
   RETURNS trigger
@@ -185,7 +185,7 @@ $BODY$
 LANGUAGE plpgsql VOLATILE;
 
 CREATE TRIGGER tr_fts_on_theme
-AFTER INSERT OR UPDATE ON theme FOR EACH ROW EXECUTE PROCEDURE update_fts_theme ();
+BEFORE INSERT OR UPDATE ON theme FOR EACH ROW EXECUTE PROCEDURE update_fts_theme ();
 
 CREATE OR REPLACE FUNCTION public.update_fts_user_info()
   RETURNS trigger
@@ -209,4 +209,4 @@ $BODY$
 LANGUAGE plpgsql VOLATILE;
 
 CREATE TRIGGER tr_fts_on_user_info
-AFTER INSERT OR UPDATE ON user_info FOR EACH ROW EXECUTE PROCEDURE update_fts_user_info ();
+BEFORE INSERT OR UPDATE ON user_info FOR EACH ROW EXECUTE PROCEDURE update_fts_user_info ();
