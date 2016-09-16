@@ -110,6 +110,7 @@ CREATE TABLE confirm (
   confirm_hash VARCHAR(256)
 );
 
+DROP TABLE IF EXISTS feedback CASCADE;
 CREATE TABLE feedback (
   id SERIAL,
   feedback VARCHAR(16000) NOT NULL,
