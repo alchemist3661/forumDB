@@ -1,3 +1,4 @@
+DROP TABLE IF EXISTS short_user CASCADE;
 create table short_user (
 user_id SERIAL,
 nick_name varchar(64) NOT NULL UNIQUE,
@@ -7,6 +8,7 @@ rights varchar NOT NULL,
 PRIMARY KEY (user_id)
 );
 
+DROP TABLE IF EXISTS user_info CASCADE;
 create table user_info (
 user_id bigint NOT NULL,
 mail varchar(254) NOT NULL UNIQUE,
@@ -21,12 +23,14 @@ name varchar (64),
 FOREIGN KEY (user_id) REFERENCES short_user (user_id) ON DELETE CASCADE
 );
 
+DROP TABLE IF EXISTS auth CASCADE;
 create table auth (
 user_id bigint NOT NULL,
 token varchar (20) NOT NULL UNIQUE,
 FOREIGN KEY (user_id) REFERENCES short_user (user_id) ON DELETE CASCADE
 );
 
+DROP TABLE IF EXISTS section CASCADE;
 create table section (
 section_id SERIAL,
 name varchar (64) NOT NULL,
@@ -35,6 +39,7 @@ subsections_count bigint NOT NULL,
 PRIMARY KEY (section_id)
 );
 
+DROP TABLE IF EXISTS subsection CASCADE;
 create table subsection (
 subsection_id SERIAL,
 section_id bigint NOT NULL,
@@ -44,6 +49,7 @@ PRIMARY KEY (subsection_id),
 FOREIGN KEY (section_id) REFERENCES section (section_id) ON DELETE CASCADE
 );
 
+DROP TABLE IF EXISTS theme CASCADE;
 create table theme (
 theme_id SERIAL,
 user_id bigint NOT NULL,
@@ -59,6 +65,7 @@ FOREIGN KEY (section_id) REFERENCES section (section_id) ON DELETE CASCADE,
 FOREIGN KEY (subsection_id) REFERENCES subsection (subsection_id) ON DELETE CASCADE
 );
 
+DROP TABLE IF EXISTS message CASCADE;
 create table message (
 message_id SERIAL,
 user_id bigint NOT NULL,
@@ -75,6 +82,7 @@ FOREIGN KEY (updater_id) REFERENCES short_user (user_id),
 FOREIGN KEY (theme_id) REFERENCES theme (theme_id) ON DELETE CASCADE
 );
 
+DROP TABLE IF EXISTS message_mark CASCADE;
 create table message_mark (
 user_id bigint NOT NULL,
 message_id bigint NOT NULL,
@@ -83,12 +91,14 @@ FOREIGN KEY (user_id) REFERENCES short_user (user_id),
 FOREIGN KEY (message_id) REFERENCES message (message_id) ON DELETE CASCADE
 );
 
+DROP TABLE IF EXISTS info CASCADE;
 create table info (
 identifier varchar(64) PRIMARY KEY,
 title varchar,
 text varchar
 );
 
+DROP TABLE IF EXISTS confirm CASCADE;
 CREATE TABLE confirm (
   user_id BIGINT NOT NULL UNIQUE,
   confirm_hash VARCHAR(256)
