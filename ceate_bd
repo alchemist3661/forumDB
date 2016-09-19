@@ -117,5 +117,56 @@ CREATE TABLE feedback (
 	PRIMARY KEY (id)
 );
 
+INSERT INTO section (name, themes_count, subsections_count, url) VALUES ('WEB разработка',0,0,'webdev');
+INSERT INTO subsection (section_id, name, themes_count, url) VALUES (1,'Front-end',0,'webdev/frontend');
+INSERT INTO subsection (section_id, name, themes_count, url) VALUES (1,'Back-end',0,'webdev/backend');
+INSERT INTO subsection (section_id, name, themes_count, url) VALUES (1,'Web-серверы',0,'webdev/webservers');
+INSERT INTO subsection (section_id, name, themes_count, url) VALUES (1,'Хостинги',0,'webdev/hosting');
+INSERT INTO subsection (section_id, name, themes_count, url) VALUES (1,'CMS',0,'webdev/cms');
+INSERT INTO subsection (section_id, name, themes_count, url) VALUES (1,'Web дизайн',0,'webdev/webdesign');
 
+INSERT INTO section (name, themes_count, subsections_count, url) VALUES ('Мобильная разработка',0,0,'mobiledev');
+INSERT INTO subsection (section_id, name, themes_count, url) VALUES (2,'Android',0,'mobiledev/android');
+INSERT INTO subsection (section_id, name, themes_count, url) VALUES (2,'iOS',0,'mobiledev/ios');
+INSERT INTO subsection (section_id, name, themes_count, url) VALUES (2,'Windows Phone',0,'mobiledev/winphone');
+INSERT INTO subsection (section_id, name, themes_count, url) VALUES (2,'Blackberry',0,'mobiledev/bb');
+
+INSERT INTO section (name, themes_count, subsections_count, url) VALUES ('Языки программирования',0,0,'coding');
+INSERT INTO subsection (section_id, name, themes_count, url) VALUES (3,'Java',0,'coding/java');
+INSERT INTO subsection (section_id, name, themes_count, url) VALUES (3,'JavaScript',0,'coding/js');
+INSERT INTO subsection (section_id, name, themes_count, url) VALUES (3,'C++',0,'coding/cpp');
+INSERT INTO subsection (section_id, name, themes_count, url) VALUES (3,'C',0,'coding/c');
+INSERT INTO subsection (section_id, name, themes_count, url) VALUES (3,'C#',0,'coding/csharp');
+INSERT INTO subsection (section_id, name, themes_count, url) VALUES (3,'Ruby',0,'coding/ruby');
+INSERT INTO subsection (section_id, name, themes_count, url) VALUES (3,'Python',0,'coding/python');
+INSERT INTO subsection (section_id, name, themes_count, url) VALUES (3,'Perl',0,'coding/perl');
+INSERT INTO subsection (section_id, name, themes_count, url) VALUES (3,'Prolog',0,'coding/prolog');
+INSERT INTO subsection (section_id, name, themes_count, url) VALUES (3,'Lisp',0,'coding/lisp');
+INSERT INTO subsection (section_id, name, themes_count, url) VALUES (3,'Haskell',0,'coding/haskell');
+INSERT INTO subsection (section_id, name, themes_count, url) VALUES (3,'Assembler',0,'coding/assembler');
+INSERT INTO subsection (section_id, name, themes_count, url) VALUES (3,'GO',0,'coding/go');
+
+INSERT INTO section (name, themes_count, subsections_count, url) VALUES ('Базы данных',0,0,'db');
+INSERT INTO subsection (section_id, name, themes_count, url) VALUES (4,'PostgreSQL',0,'db/psql');
+INSERT INTO subsection (section_id, name, themes_count, url) VALUES (4,'MySQL',0,'db/mysql');
+INSERT INTO subsection (section_id, name, themes_count, url) VALUES (4,'MongoDB',0,'db/mongo');
+INSERT INTO subsection (section_id, name, themes_count, url) VALUES (4,'HBASE',0,'db/hbase');
+INSERT INTO subsection (section_id, name, themes_count, url) VALUES (4,'Visual FoxPro',0,'db/foxpro');
+INSERT INTO subsection (section_id, name, themes_count, url) VALUES (4,'Oracle',0,'db/oracle');
+INSERT INTO subsection (section_id, name, themes_count, url) VALUES (4,'MS SQL',0,'db/mssql');
+
+INSERT INTO section (name, themes_count, subsections_count, url) VALUES ('Компьютеры',0,0,'pc');
+INSERT INTO subsection (section_id, name, themes_count, url) VALUES (5,'Железо',0,'pc/hardware');
+INSERT INTO subsection (section_id, name, themes_count, url) VALUES (5,'Софт',0,'pc/software');
+INSERT INTO subsection (section_id, name, themes_count, url) VALUES (5,'Операционные системы',0,'pc/os');
+
+INSERT INTO section (name, themes_count, subsections_count, url) VALUES ('Карьера в IT',0,0,'it');
+INSERT INTO subsection (section_id, name, themes_count, url) VALUES (6,'Фриланс',0,'it/freelance');
+INSERT INTO subsection (section_id, name, themes_count, url) VALUES (6,'Работа',0,'it/work');
+INSERT INTO subsection (section_id, name, themes_count, url) VALUES (6,'Управление проектами',0,'it/pm');
+
+INSERT INTO section (name, themes_count, subsections_count, url) VALUES ('Разное',0,0,'other');
+INSERT INTO subsection (section_id, name, themes_count, url) VALUES (7,'Флуд',0,'other/flood');
+INSERT INTO subsection (section_id, name, themes_count, url) VALUES (7,'Тренды',0,'other/trends');
+INSERT INTO subsection (section_id, name, themes_count, url) VALUES (7,'События',0,'other/events');
 
