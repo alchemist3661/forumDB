@@ -16,7 +16,6 @@ mail varchar(254) NOT NULL UNIQUE,
 birth_date bigint,
 info varchar,
 registration_time bigint NOT NULL,
-last_session bigint NOT NULL,
 messages_count bigint NOT NULL,
 themes_count bigint NOT NULL,
 pass_hash varchar (64) NOT NULL,
@@ -79,12 +78,11 @@ date bigint NOT NULL,
 body varchar (16000) NOT NULL,
 update bigint,
 rating bigint NOT NULL,
-updater_id bigint,
 updater_nick_name varchar (60),
 message_fts TSVECTOR,
 PRIMARY KEY (message_id),
 FOREIGN KEY (user_id) REFERENCES short_user (user_id), 
-FOREIGN KEY (updater_id) REFERENCES short_user (user_id), 
+FOREIGN KEY (updater_nick_name) REFERENCES short_user (nick_name), 
 FOREIGN KEY (theme_id) REFERENCES theme (theme_id) ON DELETE CASCADE
 );
 
@@ -107,7 +105,8 @@ text varchar
 DROP TABLE IF EXISTS confirm CASCADE;
 CREATE TABLE confirm (
   user_id BIGINT NOT NULL UNIQUE,
-  confirm_hash VARCHAR(256)
+  confirm_hash VARCHAR(256),
+  for_mail BOOLEAN NOT NULL
 );
 
 DROP TABLE IF EXISTS feedback CASCADE;
@@ -145,6 +144,7 @@ INSERT INTO subsection (section_id, name, themes_count, url) VALUES (3,'Lisp',0,
 INSERT INTO subsection (section_id, name, themes_count, url) VALUES (3,'Haskell',0,'coding/haskell');
 INSERT INTO subsection (section_id, name, themes_count, url) VALUES (3,'Assembler',0,'coding/assembler');
 INSERT INTO subsection (section_id, name, themes_count, url) VALUES (3,'GO',0,'coding/go');
+INSERT INTO subsection (section_id, name, themes_count, url) VALUES (3,'Swift',0,'coding/go');
 
 INSERT INTO section (name, themes_count, subsections_count, url) VALUES ('Базы данных',0,0,'db');
 INSERT INTO subsection (section_id, name, themes_count, url) VALUES (4,'PostgreSQL',0,'db/psql');
